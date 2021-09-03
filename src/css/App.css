@@ -1,0 +1,44 @@
+.frame {
+  position: absolute;
+  width: 400px;
+  height: 100vh;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url(../img/phone.png);
+  background-position: center;
+  background-size: 400px 100%;
+  background-repeat: no-repeat;
+}
+
+.App {
+  position: relative;
+  width: 400px;
+  margin: 0 auto;
+  padding: 40px 14px;
+  background-color: aquamarine;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.phone-body {
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+header {
+  height: 40px;
+  padding: 10px 0;
+  font-size: 20px;
+  text-align: center;
+  background-color: blanchedalmond;
+  margin-bottom: 10px;
+}
+
+.box {
+  border-radius: 4px;
+  width: 50%;
+  height: 200px;
+  background-color: azure;
+  margin-bottom: 8px;
+}
