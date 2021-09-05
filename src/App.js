@@ -1,40 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/App.css";
 
 function App() {
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
+  const [allTasks, setAllTasks] = useState(
+    localStorage.getItem("tasks") !== null
+      ? JSON.parse(localStorage.getItem("tasks"))
+      : []
+  );
   let enterTaskModal = document.getElementById("taskText");
   let taskText = "";
 
   const openTaskPrompt = (event) => {
     setDayIndex(Number(event.target.parentElement.dataset.day));
-
     setIsInputOpen(true);
   };
 
   const addTask = (e) => {
     e.preventDefault();
+    // generate uniqui id for the task
+    const uid = () => {
+      let id = Math.floor(Math.random() * 1000);
+      return id;
+    };
     let patentTargets =
       e.target.parentElement.parentElement.querySelectorAll(".tasks");
     taskText = enterTaskModal.value;
     const el = `
-    <div class="single-task">
+    <div class="single-task" data-taskid=${uid()}>
       <input type="checkbox" />
-      <p class="task-text">
-        ${taskText}
-      </p>
+      <p class="task-text">${taskText}</p>
     </div>
     `;
-
     if (taskText === "") {
       return;
     } else {
       patentTargets[dayIndex].innerHTML += el;
       enterTaskModal.value = "";
+      setAllTasks([
+        ...allTasks,
+        { day: { number: dayIndex, taskId: uid(), taskText } },
+      ]);
+      taskText = "";
       setIsInputOpen(false);
     }
   };
+
+  // day : 0
+  //      task1, task2...
+  // day : 1
+  //      task3, task4...
+
+  // { id: uid(), day: dayIndex, text: taskText }
+
+  useEffect(() => {
+    // let checkboxes = document.querySelectorAll(
+    //   '.single-task input[type="checkbox"]'
+    // );
+    // checkboxes.forEach((cb) => {
+    //   console.log(cb.parentElement);
+    // });
+
+    localStorage.setItem("tasks", JSON.stringify(allTasks));
+  }, [allTasks]);
 
   return (
     <div className="app">
@@ -59,7 +88,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 0) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="1">
@@ -68,7 +116,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 1) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="2">
@@ -77,7 +144,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 2) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="3">
@@ -86,7 +172,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 3) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="4">
@@ -95,7 +200,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 4) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="5">
@@ -104,7 +228,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 5) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
         <div className="box">
           <div className="day" data-day="6">
@@ -113,7 +256,26 @@ function App() {
               +
             </button>
           </div>
-          <div className="tasks"></div>
+          <div className="tasks">
+            {JSON.parse(localStorage.getItem("tasks"))
+              ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
+                  if (task.day.number === 6) {
+                    return (
+                      <div
+                        key={task.day.taskId}
+                        className="single-task"
+                        data-taskid={task.day.taskId}
+                      >
+                        <input type="checkbox" />
+                        <p className="task-text">{task.day.taskText}</p>
+                      </div>
+                    );
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+          </div>
         </div>
       </div>
     </div>
