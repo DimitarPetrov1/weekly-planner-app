@@ -5,7 +5,8 @@ function App() {
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
   const [allTasks, setAllTasks] = useState(
-    localStorage.getItem("tasks") !== null
+    localStorage.getItem("tasks") !== null &&
+      localStorage.getItem("tasks") !== undefined
       ? JSON.parse(localStorage.getItem("tasks"))
       : []
   );
@@ -42,26 +43,23 @@ function App() {
         ...allTasks,
         { day: { number: dayIndex, taskId: uid(), taskText } },
       ]);
-      taskText = "";
       setIsInputOpen(false);
     }
   };
 
-  // day : 0
-  //      task1, task2...
-  // day : 1
-  //      task3, task4...
-
-  // { id: uid(), day: dayIndex, text: taskText }
-
   useEffect(() => {
-    // let checkboxes = document.querySelectorAll(
-    //   '.single-task input[type="checkbox"]'
-    // );
-    // checkboxes.forEach((cb) => {
-    //   console.log(cb.parentElement);
-    // });
+    let checkboxes = document.querySelectorAll(
+      '.single-task input[type="checkbox"]'
+    );
+    checkboxes.forEach((cb, index) => {
+      cb.addEventListener("change", (event) => {
+        event.target.parentElement.remove();
+        allTasks.splice(index);
+        localStorage.setItem("tasks", JSON.stringify(allTasks));
+      });
+    });
 
+    // bug <<< something to do with the []
     localStorage.setItem("tasks", JSON.stringify(allTasks));
   }, [allTasks]);
 
