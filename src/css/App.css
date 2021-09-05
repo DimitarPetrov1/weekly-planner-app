@@ -1,35 +1,60 @@
+/* font-family: 'Dancing Script', cursive; */
+
 .app {
   position: relative;
-  width: 900px;
-  margin: 0 auto;
-  padding: 20px 14px;
-  background-color: aquamarine;
-  height: 100vh;
+  width: 420px;
+  padding: 10px;
+  background-color: rgb(238, 238, 238);
+  height: 90vh;
   overflow-y: scroll;
+  border-radius: 4px;
+  box-shadow: 14px 14px 14px 10px rgba(97, 97, 97, 0.7);
 }
-header {
-  height: 40px;
-  padding: 10px 0;
-  margin: 0 8px;
-  font-size: 20px;
+
+/* with open modal */
+.modal-back-on .enter-task {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.modal-back-on {
+  overflow-y: hidden;
+  height: 100vh;
+  background-color: black;
+}
+
+.modal-back-on .days {
+  visibility: hidden;
+}
+
+.app:before {
+  content: "My planner";
+  position: sticky;
+  display: block;
   text-align: center;
-  background-color: blanchedalmond;
-  margin-bottom: 10px;
+  font-size: 3rem;
+  font-weight: bold;
+  height: 70px;
+  top: 0;
+  z-index: 1;
+  font-family: "Dancing Script", cursive;
 }
 
 .days {
   display: flex;
   flex-wrap: wrap;
+  z-index: 200;
 }
 
 .box {
   border-radius: 4px;
   width: calc(50% - 16px);
+  flex-basis: calc(50% - 16px);
   height: 100%;
   min-height: 200px;
-  background-color: azure;
+  background-color: rgb(255, 255, 255);
   margin: 8px;
   padding: 10px;
+  z-index: 200;
 }
 
 .box:nth-child(7) {
@@ -40,10 +65,15 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: "Dancing Script", cursive;
+  font-size: 1.5rem;
+  user-select: none;
+  border-bottom: 1px solid rgb(76, 0, 255);
+  padding-bottom: 4px;
 }
 
 .tasks {
-  background-color: red;
+  /* background-color: rgb(46, 140, 163); */
 }
 
 .single-task {
@@ -52,7 +82,11 @@ header {
   align-items: center;
   padding: 8px;
   margin: 8px 0;
-  border: 1px solid black;
+  border-bottom: 1px dotted black;
+}
+
+.task-text::first-letter {
+  text-transform: uppercase;
 }
 
 .single-task input[type="checkbox"] {
@@ -63,26 +97,53 @@ header {
 .enter-task {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: absolute;
-  width: 400px;
-  height: 200px;
+  padding: 10px;
+  top: 0;
   left: 50%;
+  border-radius: 4px;
   transform: translateX(-50%);
-  background-color: aqua;
+  background-color: rgb(255, 255, 255);
+  z-index: 900;
 }
 
 .enter-task textarea {
-  flex-basis: 90%;
   height: 100%;
   resize: none;
+  margin-right: 10px;
+  border: 1px solid rgb(165, 165, 165);
+  padding: 10px;
+}
+
+.enter-task textarea::placeholder {
+  text-align: center;
+  text-decoration: underline;
 }
 
 .enter-task input[type="submit"] {
-  flex-basis: 10%;
-  background-color: red;
+  /*  */
 }
 
 .hidden {
   visibility: hidden;
   pointer-events: none;
+}
+
+/* BTN */
+
+.btn {
+  background: none;
+  border: 2px solid rgb(76, 0, 255);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 500px) {
+  .box {
+    width: 100%;
+    flex-basis: 100%;
+  }
 }

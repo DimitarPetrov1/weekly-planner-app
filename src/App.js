@@ -5,8 +5,7 @@ function App() {
   const [isInputOpen, setIsInputOpen] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
   const [allTasks, setAllTasks] = useState(
-    localStorage.getItem("tasks") !== null &&
-      localStorage.getItem("tasks") !== undefined
+    localStorage.getItem("tasks") !== null
       ? JSON.parse(localStorage.getItem("tasks"))
       : []
   );
@@ -64,7 +63,7 @@ function App() {
   }, [allTasks]);
 
   return (
-    <div className="app">
+    <div className={isInputOpen ? "app modal-back-on" : "app"}>
       <form
         className={isInputOpen ? "enter-task" : "enter-task hidden"}
         onSubmit={addTask}
@@ -75,14 +74,13 @@ function App() {
           rows="10"
           placeholder="Enter your task"
         ></textarea>
-        <input type="submit" value="+" />
+        <input className="btn btn-submit" type="submit" value="+" />
       </form>
-      <header>My Planner</header>
       <div className="days">
         <div className="box">
           <div className="day" data-day="0">
             Monday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -110,7 +108,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="1">
             Tuesday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -138,7 +136,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="2">
             Wendesday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -166,7 +164,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="3">
             Thursday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -194,7 +192,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="4">
             Friday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -222,7 +220,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="5">
             Saturday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
@@ -250,7 +248,7 @@ function App() {
         <div className="box">
           <div className="day" data-day="6">
             Sunday
-            <button className="add-task" onClick={openTaskPrompt}>
+            <button className="add-task btn" onClick={openTaskPrompt}>
               +
             </button>
           </div>
