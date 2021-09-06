@@ -142,6 +142,9 @@
 }
 
 @media only screen and (max-width: 500px) {
+  .app {
+    width: 100%;
+  }
   .box {
     width: 100%;
     flex-basis: 100%;
