@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Plus from "./img/plus-circle.svg";
+import Close from "./img/x.svg";
 import "./css/App.css";
 
 function App() {
@@ -14,8 +15,8 @@ function App() {
   let enterTaskModal = document.getElementById("taskText");
   let taskText = "";
 
-  const openTaskPrompt = (event) => {
-    setDayIndex(Number(event.target.parentElement.dataset.day));
+  const openTaskPrompt = (e) => {
+    setDayIndex(Number(e.target.parentElement.dataset.day));
     setIsInputOpen(true);
   };
 
@@ -51,19 +52,22 @@ function App() {
     setUpdateList(false);
   }, [allTasks, updateList]);
 
-  const deleteTask = (event) => {
+  const deleteTask = (e) => {
     // we get the task id of the target
     // find the index of the item in local storage
     // delete the index from local storage + the DOM
-    let getEventId = Number(event.target.parentElement.dataset.taskid);
-    event.target.parentElement.remove();
+    let getEventId = Number(e.target.parentElement.dataset.taskid);
     let lc = JSON.parse(localStorage.getItem("tasks"));
+    e.target.parentElement.style.opacity = 0;
     lc.forEach((item, i) => {
       if (item.day.taskId === getEventId) {
         lc.splice(i, 1);
         localStorage.setItem("tasks", JSON.stringify(lc));
       }
     });
+    setTimeout(() => {
+      e.target.parentElement.remove();
+    }, 1000);
   };
 
   return (
@@ -79,6 +83,15 @@ function App() {
           placeholder="Enter your task"
         ></textarea>
         <button className="btn btn-submit" type="submit">
+          <img
+            src={Close}
+            alt="X"
+            onClick={(e) => {
+              e.preventDefault();
+              enterTaskModal.value = "";
+              setIsInputOpen(false);
+            }}
+          />
           <img className="add-svg" src={Plus} alt="Add" />
         </button>
       </form>
