@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import Plus from "./img/plus-circle.svg";
 import "./css/App.css";
 
 function App() {
   const [isInputOpen, setIsInputOpen] = useState(false);
+  const [updateList, setUpdateList] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
   const [allTasks, setAllTasks] = useState(
     localStorage.getItem("tasks") !== null
@@ -24,43 +26,45 @@ function App() {
       let id = Math.floor(Math.random() * 1000);
       return id;
     };
-    let patentTargets =
-      e.target.parentElement.parentElement.querySelectorAll(".tasks");
     taskText = enterTaskModal.value;
-    const el = `
-    <div class="single-task" data-taskid=${uid()}>
-      <input type="checkbox" />
-      <p class="task-text">${taskText}</p>
-    </div>
-    `;
     if (taskText === "") {
+      alert("Please enter task");
       return;
     } else {
-      patentTargets[dayIndex].innerHTML += el;
       enterTaskModal.value = "";
       setAllTasks([
         ...allTasks,
-        { day: { number: dayIndex, taskId: uid(), taskText } },
+        { day: { taskId: uid(), dayNumber: dayIndex, taskText: taskText } },
       ]);
+      setUpdateList(true);
       setIsInputOpen(false);
     }
   };
 
-  useEffect(() => {
-    let checkboxes = document.querySelectorAll(
-      '.single-task input[type="checkbox"]'
-    );
-    checkboxes.forEach((cb, index) => {
-      cb.addEventListener("change", (event) => {
-        event.target.parentElement.remove();
-        allTasks.splice(index);
-        localStorage.setItem("tasks", JSON.stringify(allTasks));
-      });
-    });
+  // useEffect(() => {
+  //   localStorage.setItem("tasks", JSON.stringify(allTasks));
+  //   setUpdateList(false);
+  // }, [allTasks, updateList]);
 
-    // bug <<< something to do with the []
+  useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(allTasks));
-  }, [allTasks]);
+    setUpdateList(false);
+  }, [allTasks, updateList]);
+
+  const deleteTask = (event) => {
+    // we get the task id of the target
+    // find the index of the item in local storage
+    // delete the index from local storage + the DOM
+    let getEventId = Number(event.target.parentElement.dataset.taskid);
+    event.target.parentElement.remove();
+    let lc = JSON.parse(localStorage.getItem("tasks"));
+    lc.forEach((item, i) => {
+      if (item.day.taskId === getEventId) {
+        lc.splice(i, 1);
+        localStorage.setItem("tasks", JSON.stringify(lc));
+      }
+    });
+  };
 
   return (
     <div className={isInputOpen ? "app modal-back-on" : "app"}>
@@ -74,27 +78,32 @@ function App() {
           rows="10"
           placeholder="Enter your task"
         ></textarea>
-        <input className="btn btn-submit" type="submit" value="+" />
+        <button className="btn btn-submit" type="submit">
+          <img className="add-svg" src={Plus} alt="Add" />
+        </button>
       </form>
       <div className="days">
         <div className="box">
           <div className="day" data-day="0">
             Monday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 0) {
+                  if (task.day.dayNumber === 0) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -108,21 +117,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="1">
             Tuesday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 1) {
+                  if (task.day.dayNumber === 1) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -136,21 +148,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="2">
             Wendesday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 2) {
+                  if (task.day.dayNumber === 2) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -164,21 +179,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="3">
             Thursday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 3) {
+                  if (task.day.dayNumber === 3) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -192,21 +210,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="4">
             Friday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 4) {
+                  if (task.day.dayNumber === 4) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -220,21 +241,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="5">
             Saturday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 5) {
+                  if (task.day.dayNumber === 5) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
@@ -248,21 +272,24 @@ function App() {
         <div className="box">
           <div className="day" data-day="6">
             Sunday
-            <button className="add-task btn" onClick={openTaskPrompt}>
-              +
-            </button>
+            <img
+              className="add-svg btn"
+              src={Plus}
+              alt="Add"
+              onClick={openTaskPrompt}
+            />
           </div>
           <div className="tasks">
             {JSON.parse(localStorage.getItem("tasks"))
               ? JSON.parse(localStorage.getItem("tasks")).map((task) => {
-                  if (task.day.number === 6) {
+                  if (task.day.dayNumber === 6) {
                     return (
                       <div
                         key={task.day.taskId}
                         className="single-task"
                         data-taskid={task.day.taskId}
                       >
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={deleteTask} />
                         <p className="task-text">{task.day.taskText}</p>
                       </div>
                     );
