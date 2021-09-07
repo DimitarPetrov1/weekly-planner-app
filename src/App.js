@@ -16,6 +16,8 @@ function App() {
   let taskText = "";
 
   const openTaskPrompt = (e) => {
+    let modal = document.querySelector(".enter-task");
+    modal.scrollIntoView();
     setDayIndex(Number(e.target.parentElement.dataset.day));
     setIsInputOpen(true);
   };
@@ -41,11 +43,6 @@ function App() {
       setIsInputOpen(false);
     }
   };
-
-  // useEffect(() => {
-  //   localStorage.setItem("tasks", JSON.stringify(allTasks));
-  //   setUpdateList(false);
-  // }, [allTasks, updateList]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(allTasks));
